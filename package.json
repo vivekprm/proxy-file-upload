@@ -1,0 +1,23 @@
+{
+  "name": "proxy-file-upload",
+  "version": "1.0.0",
+  "description": "Test file upload",
+  "main": "index.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon -e js,html --watch ./ --watch ./public ./server.js",
+    "test": "npm test"
+  },
+  "author": "Vivek Mishra",
+  "license": "ISC",
+  "dependencies": {
+    "busboy": "^0.3.1",
+    "express": "^4.17.1",
+    "express-busboy": "^8.0.0",
+    "form-data": "^4.0.0",
+    "fs-extra": "^10.0.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.13"
+  }
+}
