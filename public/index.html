@@ -1,45 +1,46 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>File Upload</title>
-        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    </head>
-    <body>
-        <form action="/upload" method="POST">
-            <input type="file" name="artifact" /><br/>
-            <input type="button" onclick="upload()" value="Upload">
-            <!--button>Upload</button-->
-        </form>
-        <script type="text/javascript">
-            // dummyApi()
-            function dummyApi() {
-                axios.get('/data')
-                .then((response) => {
-                    console.log(response.data);
-                    console.log(response.status);
-                    console.log(response.statusText);
-                    console.log(response.headers);
-                    console.log(response.config);
-                });
-            }
-            function upload() {
-                debugger;
-                //document.getElementById("myForm").submit();
-                let fd = new FormData();
-                fd.append('fileName', new Blob([document.forms[0].artifact.value], {type: "application/x-tgz"}), 'blob')
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Upload</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+<body>
+    <h2>Upload</h2>
+    <form method="post" action="/upload" enctype="multipart/form-data">
+        <input type="file" id="file" name="file" />
+        <input type="button" onclick="upload()" value="Upload">
+    </form>
+    <script type="text/javascript">
+        // dummyApi()
+        function dummyApi() {
+            axios.get('/data')
+            .then((response) => {
+                console.log(response.data);
+                console.log(response.status);
+                console.log(response.statusText);
+                console.log(response.headers);
+                console.log(response.config);
+            });
+        }
+        function upload() {
+            debugger;
+            //document.getElementById("myForm").submit();
+            let fd = new FormData();
+            fd.append('fileName', new Blob([document.forms[0].file.value], {type: "application/x-tgz"}), 'blob')
 
-                axios({
-                    method: 'post',
-                    url: '/upload',
-                    data: fd
-                })
-                .then(function (response) {
-                    console.log(response);
-                })
-                .catch(function (error) {
-                    console.log(error);
-                });
-            }
-        </script>
+            axios({
+                method: 'post',
+                url: '/upload',
+                data: fd
+            })
+            .then(function (response) {
+                console.log(response);
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+        }
+    </script>
     </body>
 </html>

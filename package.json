@@ -12,10 +12,13 @@
   "license": "ISC",
   "dependencies": {
     "busboy": "^0.3.1",
+    "cors": "^2.8.5",
     "express": "^4.17.1",
     "express-busboy": "^8.0.0",
     "form-data": "^4.0.0",
-    "fs-extra": "^10.0.0"
+    "fs-extra": "^10.0.0",
+    "multiparty": "^4.2.2",
+    "request": "^2.88.2"
   },
   "devDependencies": {
     "nodemon": "^2.0.13"
