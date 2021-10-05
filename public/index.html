@@ -5,34 +5,21 @@
         <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     </head>
     <body>
-        <form action="/upload" method="POST">
-            <input type="file" name="artifact" /><br/>
+        <form action="/upload" method="POST" enctype="multipart/form-data">
+            <input type="file" name="artifact" onchange="change(event)" /><br/>
             <input type="button" onclick="upload()" value="Upload">
             <!--button>Upload</button-->
         </form>
         <script type="text/javascript">
-            // dummyApi()
-            function dummyApi() {
-                axios.get('/data')
-                .then((response) => {
-                    console.log(response.data);
-                    console.log(response.status);
-                    console.log(response.statusText);
-                    console.log(response.headers);
-                    console.log(response.config);
-                });
+            function change(e) {
+                let file = e.target.files[0];
+                upload(file);
             }
-            function upload() {
-                debugger;
-                //document.getElementById("myForm").submit();
-                let fd = new FormData();
-                fd.append('fileName', new Blob([document.forms[0].artifact.value], {type: "application/x-tgz"}), 'blob')
-
-                axios({
-                    method: 'post',
-                    url: '/upload',
-                    data: fd
-                })
+            function upload(file) {
+                let formData = new FormData();
+                formData.append("artifact", file);
+                
+                axios.post('/upload', formData, {headers: {"Content-Type": "multipart/form-data",},})
                 .then(function (response) {
                     console.log(response);
                 })
