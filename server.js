@@ -22,23 +22,32 @@ app.get('/health', (req, res) => {
 app.post( '/upload', function ( req, res, next ) {
     var form = new multiparty.Form();
 
-    form.on("part", function(part){
-        if(part.filename) {
-            var form = new FormData();
+    form.on("part", function(formPart){
+        if(formPart.filename) {
+            var contentType = formPart.headers['content-type'];
 
-            form.append("artifact", part, {filename: part.filename,contentType: part["content-type"]});
+            var formData = {
+                blob: {
+                    value: formPart,
+                    options: {
+                        filename: formPart.filename,
+                        contentType: contentType,
+                        knownLength: formPart.byteCount
+                    }
+                }
+            };
 
-            var r = request.post("http://localhost:3001/upload", { "headers": {"transfer-encoding": "chunked"} }, function(err, res, body){
-                httpResponse.send(res);
-            });
-           
-            r._form = form
+            request.post({url: "http://localhost:3001/upload", formData: formData});
         }
     })
 
     form.on("error", function(error){
-        console.log(error);
+        next(error);
     })
+
+    form.on('close', function() {
+        res.send('received upload');
+    });
 
     form.parse(req); 
 });
