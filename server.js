@@ -2,6 +2,7 @@ let express = require('express');
 let app = express();
 var multiparty = require("multiparty");
 var request = require("request");
+var FormData = require('form-data');
 
 app.use(express.static('public', {
     etag: true, // Just being explicit about the default.
@@ -23,23 +24,15 @@ app.post( '/upload', function ( req, res, next ) {
 
     form.on("part", function(part){
         if(part.filename) {
-            var formData = {
-                thumbnail: {
-                    value:  part,
-                    options: {
-                        filename: part.filename,
-                        contentType: part["content-type"],
-                        knownLength: 244
-                    }
-                }
-            };
+            var form = new FormData();
 
-            request.post({url:'http://localhost:3001/upload', formData: formData}, function (err, httpResponse, body) {
-                if(err) {
-                    return console.error('upload failed:', err);
-                }
-                console.log('Upload successful!  Server responded with:');
+            form.append("artifact", part, {filename: part.filename,contentType: part["content-type"]});
+
+            var r = request.post("http://localhost:3001/upload", { "headers": {"transfer-encoding": "chunked"} }, function(err, res, body){
+                httpResponse.send(res);
             });
+           
+            r._form = form
         }
     })
 
