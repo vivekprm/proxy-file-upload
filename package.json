@@ -4,7 +4,9 @@
   "description": "Test file upload",
   "main": "index.js",
   "scripts": {
-    "start": "node server.js",
+    "start": "run-p start:proxy start:app",
+    "start:proxy": "node server.js",
+    "start:app": "node upload.js",
     "dev": "nodemon -e js,html --watch ./ --watch ./public ./server.js",
     "test": "npm test"
   },
@@ -20,6 +22,7 @@
     "request": "^2.88.2"
   },
   "devDependencies": {
-    "nodemon": "^2.0.13"
+    "nodemon": "^2.0.13",
+    "npm-run-all": "^4.1.5"
   }
 }
