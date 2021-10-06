@@ -32,7 +32,6 @@ app.post('/upload', (req, res) => {
       // On finish of the upload
       fstream.on('close', () => {
           console.log(`Upload of '${filename}' finished`);
-          res.redirect('back');
       });
     });
     busboy.on('field', function(fieldname, val, fieldnameTruncated, valTruncated, encoding, mimetype) {
@@ -40,10 +39,6 @@ app.post('/upload', (req, res) => {
     });
     busboy.on('finish', function() {
       console.log('Done parsing form!');
-      res.writeHead(303, {
-        Connection: 'close',
-        Location: '/'
-      });
       res.end();
     });
     
