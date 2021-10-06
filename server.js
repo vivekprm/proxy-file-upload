@@ -17,9 +17,9 @@ app.post( '/upload', function ( req, res, next ) {
     form.on("part", function(formPart){
         if (!formPart.filename) {
             // filename is not defined when this is a field and not a file
-            console.log('got field named ' + part.name);
+            console.log('got field named ' + formPart.name);
             // ignore field's content
-            part.resume();
+            formPart.resume();
         }
         if(formPart.filename) {
             // filename is defined when this is a file
